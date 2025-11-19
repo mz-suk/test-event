@@ -1,7 +1,7 @@
 import Lenis from 'lenis';
 import { createApp } from 'vue';
 import App from './App.vue';
-import './assets/main.css';
+import './assets/main.scss';
 
 const lenis = new Lenis({
   lerp: 0.08,

@@ -19,42 +19,257 @@
 }
 
 *,
-*::before,
-*::after {
+::before,
+::after {
   box-sizing: border-box;
 }
-
+html {
+  line-height: 1.53;
+  tab-size: 2;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  font-family: 'Pretendard Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+html:focus-within {
+  scroll-behavior: smooth;
+}
 body {
   margin: 0;
-  font-family: 'Spoqa Han Sans Neo', 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #fef7ff 0%, var(--background) 50%, #e4edff 100%);
-  color: var(--text-strong);
-  line-height: 1.5;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
+  line-height: inherit;
 }
-
-img {
-  display: block;
-  max-width: 100%;
+hr {
+  height: 0;
+  color: inherit;
+  border-top-width: 1px;
 }
-
+abbr:where([title]) {
+  text-decoration: underline dotted;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: inherit;
 }
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+b,
+strong {
+  font-weight: bolder;
+}
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 1em;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sub {
+  bottom: -0.25em;
 
-button {
+  :lang(ko) & {
+    bottom: 0;
+  }
+}
+sup {
+  top: -0.5em;
+}
+table {
+  text-indent: 0;
+  border-color: inherit;
+  border-collapse: collapse;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
   font: inherit;
-  border: none;
-  background: none;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: middle;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+}
+:-moz-focusring {
+  outline: auto;
+}
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+progress {
+  vertical-align: baseline;
+}
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+[type='search'] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+summary {
+  display: list-item;
+}
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+legend {
+  padding: 0;
+}
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+dialog {
+  padding: 0;
+}
+textarea {
+  resize: vertical;
+}
+input::placeholder,
+textarea::placeholder {
+  opacity: 1;
+}
+button,
+[role='button'] {
   cursor: pointer;
 }
+:disabled {
+  cursor: default;
+}
+img,
+picture,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+}
+img,
+picture,
+video {
+  max-width: 100%;
+  height: auto;
+}
+svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+[hidden] {
+  display: none;
+}
+:target {
+  scroll-margin-block: 5ex;
+}
 
-.event-page {
-  width: min(1080px, calc(100% - clamp(32px, 7vw, 120px)));
-  margin: 0 auto 120px;
-  padding-top: clamp(32px, 6vw, 80px);
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transition: none;
+  }
+}
+
+body,
+html {
+  height: 100%;
+  // scroll-behavior: smooth;
+}
+
+$screenSizes: 280, 320, 360, 375, 393, 410, 412, 414, 450;
+@each $size in $screenSizes {
+  @media (min-width: #{$size}px) {
+    html {
+      font-size: (calc($size / 360) * 62.5) * 1%;
+    }
+  }
+}
+
+html {
+  &.modal,
+  &.alert,
+  &.bottom-sheet {
+    touch-action: none;
+    overflow: hidden;
+  }
+}
+body {
+  font-size: 1.3rem;
+  color: var(--gray70);
+  background-color: var(--base);
+  user-select: none;
+}
+#__nuxt {
+  height: 100%;
 }
 
 .hero {
