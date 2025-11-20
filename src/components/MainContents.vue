@@ -39,22 +39,26 @@ onMounted(async () => {
   // ============================================
   // 1. 컨테이너 섹션 순차 등장
   // ============================================
-  const containers = querySelectorAll('.content__container');
-  gsapAnimations.reveal(containers, {
-    from: { opacity: 0, y: 70, scale: 0.95 },
-    to: { opacity: 1, y: 0, scale: 1 },
-    duration: 0.7,
-    stagger: 0.15,
-    ease: 'power3.out',
-    start: 'top 85%',
-  });
+  // const containers = querySelectorAll('.content__container');
+  // gsapAnimations.reveal(containers, {
+  //   from: { opacity: 0, y: 70, scale: 0.95 },
+  //   to: { opacity: 1, y: 0, scale: 1 },
+  //   duration: 0.7,
+  //   stagger: 0.15,
+  //   ease: 'power3.out',
+  //   start: 'top 85%',
+  // });
 
   // ============================================
   // 2. 타이틀 애니메이션
   // ============================================
   const titles = querySelectorAll('.content__title');
   titles.forEach(title => {
-    gsapAnimations.panelHeader(title, {
+    gsapAnimations.reveal(title, {
+      from: { opacity: 0, y: 50 },
+      to: { opacity: 1, y: 0 },
+      duration: 0.7,
+      ease: 'power1.out',
       start: 'top 90%',
     });
   });
@@ -64,12 +68,12 @@ onMounted(async () => {
   // ============================================
   const infoListItems = querySelectorAll('.content__info-list li');
   gsapAnimations.listItems(infoListItems, {
-    from: { opacity: 0, x: -30, scale: 0.95 },
-    to: { opacity: 1, x: 0, scale: 1 },
-    duration: 0.6,
+    from: { opacity: 0, y: 50, scale: 0.95 },
+    to: { opacity: 1, y: 0, scale: 1 },
+    duration: 0.7,
     stagger: 0.1,
     trigger: querySelector('.content__info-list'),
-    start: 'top 85%',
+    start: 'top 80%',
   });
 
   // ============================================
@@ -77,10 +81,10 @@ onMounted(async () => {
   // ============================================
   const descriptions = querySelectorAll('.content__description');
   gsapAnimations.reveal(descriptions, {
-    from: { opacity: 0, y: 30 },
+    from: { opacity: 0, y: 50 },
     to: { opacity: 1, y: 0 },
     duration: 0.7,
-    ease: 'power2.out',
+    ease: 'power1.out',
     start: 'top 90%',
   });
 
@@ -88,13 +92,12 @@ onMounted(async () => {
   // 5. Feed 카드 애니메이션
   // ============================================
   const feedCards = querySelectorAll('.content__feed');
-  gsapAnimations.cardStagger(feedCards, {
-    from: { opacity: 0, y: 60, scale: 0.9 },
+  gsapAnimations.reveal(feedCards, {
+    from: { opacity: 0, y: 50, scale: 0.5 },
     to: { opacity: 1, y: 0, scale: 1 },
     duration: 0.7,
-    stagger: 0.12,
-    ease: 'back.out(1.5)',
-    start: 'top 88%',
+    ease: 'power1.out',
+    start: 'top 90%',
   });
 
   // ============================================
@@ -103,10 +106,10 @@ onMounted(async () => {
   const shareTitle = querySelector('.content__share-title');
   if (shareTitle) {
     gsapAnimations.reveal(shareTitle, {
-      from: { opacity: 0, y: 40, scale: 0.95 },
-      to: { opacity: 1, y: 0, scale: 1 },
+      from: { opacity: 0, scale: 0.5 },
+      to: { opacity: 1, scale: 1 },
       duration: 0.6,
-      ease: 'power3.out',
+      ease: 'power1.out',
       start: 'top 90%',
     });
   }
@@ -118,10 +121,10 @@ onMounted(async () => {
   gsapAnimations.buttons(shareButtons, {
     from: { scale: 0, opacity: 0, rotation: 180 },
     to: { scale: 1, opacity: 1, rotation: 0 },
-    duration: 0.6,
-    stagger: 0.1,
+    duration: 0.9,
+    stagger: 0.2,
     ease: 'back.out(2.5)',
-    start: 'top 92%',
+    start: 'top 90%',
   });
 
   // ============================================
@@ -214,6 +217,7 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .content {
   margin-top: -3rem;
+  padding-top: 60px;
   display: flex;
   flex-direction: column;
   gap: 60px;

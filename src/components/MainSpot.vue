@@ -34,7 +34,7 @@ onUnmounted(() => {
       <p><img src="/img/logo-text.png" alt="logo" class="logo-text" /></p>
     </header>
 
-    <h2 class="object title">
+    <h2 class="title">
       <div ref="titleContainer" class="title-lottie"></div>
     </h2>
 
@@ -69,21 +69,16 @@ onUnmounted(() => {
       margin-top: 1.2rem;
     }
   }
-  .object {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 5;
-    transform: translate(-50%, -50%);
-    will-change: transform, opacity, filter;
-  }
   .title {
-    top: 25%;
+    position: absolute;
+    top: 8%;
+    left: 0;
+    z-index: 5;
     width: 100%;
   }
   .title-lottie {
     width: 100%;
-    max-width: 360px;
+    max-width: 36rem;
     margin: 0 auto;
     pointer-events: none;
   }
@@ -93,14 +88,17 @@ onUnmounted(() => {
     left: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1;
     overflow: hidden;
-    background: #000;
     pointer-events: none;
   }
   .video-bg {
     width: 100%;
     height: 100%;
+    max-width: 55rem;
     object-fit: cover;
   }
 }
