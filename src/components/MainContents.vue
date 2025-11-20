@@ -1,4 +1,7 @@
 <script setup>
+import { onMounted, onUnmounted, nextTick } from 'vue';
+import { useGsapAnimations, useGsapHelpers } from '../composables/useGsapAnimations';
+
 const eventInfo = [
   {
     title: '이벤트 기간',
@@ -25,6 +28,140 @@ const feedList = [
     image: '/img/feed-1.png',
   },
 ];
+
+// GSAP 애니메이션 초기화
+const gsapAnimations = useGsapAnimations();
+const { querySelectorAll, querySelector } = useGsapHelpers();
+
+onMounted(async () => {
+  await nextTick();
+
+  // ============================================
+  // 1. 컨테이너 섹션 순차 등장
+  // ============================================
+  const containers = querySelectorAll('.content__container');
+  gsapAnimations.reveal(containers, {
+    from: { opacity: 0, y: 80, scale: 0.95 },
+    to: { opacity: 1, y: 0, scale: 1 },
+    duration: 0.8,
+    stagger: 0.15,
+    ease: 'power3.out',
+    start: 'top 85%',
+  });
+
+  // ============================================
+  // 2. 타이틀 애니메이션
+  // ============================================
+  const titles = querySelectorAll('.content__title');
+  titles.forEach(title => {
+    gsapAnimations.panelHeader(title, {
+      start: 'top 90%',
+    });
+  });
+
+  // ============================================
+  // 3. Info List 애니메이션
+  // ============================================
+  const infoListItems = querySelectorAll('.content__info-list li');
+  gsapAnimations.listItems(infoListItems, {
+    from: { opacity: 0, x: -30, scale: 0.95 },
+    to: { opacity: 1, x: 0, scale: 1 },
+    duration: 0.6,
+    stagger: 0.1,
+    trigger: querySelector('.content__info-list'),
+    start: 'top 85%',
+  });
+
+  // ============================================
+  // 4. Description 애니메이션
+  // ============================================
+  const descriptions = querySelectorAll('.content__description');
+  gsapAnimations.reveal(descriptions, {
+    from: { opacity: 0, y: 30 },
+    to: { opacity: 1, y: 0 },
+    duration: 0.7,
+    ease: 'power2.out',
+    start: 'top 90%',
+  });
+
+  // ============================================
+  // 5. Feed 카드 애니메이션
+  // ============================================
+  const feedCards = querySelectorAll('.content__feed');
+  gsapAnimations.cardStagger(feedCards, {
+    from: { opacity: 0, y: 60, scale: 0.9 },
+    to: { opacity: 1, y: 0, scale: 1 },
+    duration: 0.7,
+    stagger: 0.12,
+    ease: 'back.out(1.5)',
+    start: 'top 88%',
+  });
+
+  // ============================================
+  // 6. Share 섹션 애니메이션
+  // ============================================
+  const shareTitle = querySelector('.content__share-title');
+  if (shareTitle) {
+    gsapAnimations.reveal(shareTitle, {
+      from: { opacity: 0, y: 40, scale: 0.95 },
+      to: { opacity: 1, y: 0, scale: 1 },
+      duration: 0.6,
+      ease: 'power3.out',
+      start: 'top 90%',
+    });
+  }
+
+  // ============================================
+  // 7. Share 버튼 애니메이션
+  // ============================================
+  const shareButtons = querySelectorAll('.content__share-button button');
+  gsapAnimations.buttons(shareButtons, {
+    from: { scale: 0, opacity: 0, rotation: 180 },
+    to: { scale: 1, opacity: 1, rotation: 0 },
+    duration: 0.6,
+    stagger: 0.1,
+    ease: 'back.out(2.5)',
+    start: 'top 92%',
+  });
+
+  // ============================================
+  // 8. Footer 버튼 애니메이션
+  // ============================================
+  const footerButton = querySelector('.content__footer button');
+  if (footerButton) {
+    gsapAnimations.buttons(footerButton, {
+      from: { scale: 0.9, opacity: 0 },
+      to: { scale: 1, opacity: 1 },
+      duration: 0.5,
+      ease: 'back.out(2)',
+      delay: 0.3,
+    });
+  }
+
+  // ============================================
+  // 9. 컨테이너 패럴럭스 효과
+  // ============================================
+  gsapAnimations.parallax(containers, {
+    y: -15,
+    scrub: 1,
+  });
+
+  // ============================================
+  // 10. Share 섹션 패럴럭스
+  // ============================================
+  const shareSection = querySelector('.content__share');
+  if (shareSection) {
+    gsapAnimations.parallax(shareSection, {
+      y: -20,
+      scrub: 0.8,
+    });
+  }
+});
+
+// 컴포넌트 언마운트 시 정리
+onUnmounted(() => {
+  gsapAnimations.cleanup();
+});
 </script>
 
 <template>
@@ -83,12 +220,16 @@ const feedList = [
   padding-bottom: 85px;
   border-radius: 32px;
   background-color: #ffffff;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 
   &__container {
     padding: 0px 34px 0px 28px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
   }
   &__info-list {
     display: flex;
@@ -99,6 +240,7 @@ const feedList = [
       display: flex;
       flex-direction: column;
       white-space: pre-line;
+      will-change: transform, opacity;
 
       p {
         font-weight: 700;
@@ -129,6 +271,7 @@ const feedList = [
     letter-spacing: -1px;
     font-weight: 700;
     font-family: 'Spoqa Han Sans Neo', sans-serif;
+    will-change: transform, opacity;
     img {
       width: 34px;
       height: 34px;
@@ -141,6 +284,7 @@ const feedList = [
     letter-spacing: 0px;
     color: #333950;
     font-family: 'Spoqa Han Sans Neo', sans-serif;
+    will-change: transform, opacity;
   }
   &__feed {
     display: flex;
@@ -155,6 +299,9 @@ const feedList = [
     line-height: 1.3;
     letter-spacing: -1px;
     font-weight: 500;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
   }
   &__share {
     display: flex;
@@ -163,6 +310,8 @@ const feedList = [
     justify-content: center;
     gap: 20px;
     margin-bottom: 85px; // footer와의 간격
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
     &-title {
       font-size: 1.4rem;
       line-height: 20px;
@@ -170,6 +319,7 @@ const feedList = [
       font-weight: 700;
       color: #333950;
       font-family: 'Spoqa Han Sans Neo', sans-serif;
+      will-change: transform, opacity;
     }
     &-button {
       display: flex;
@@ -177,6 +327,17 @@ const feedList = [
       button {
         width: 28px;
         height: 28px;
+        will-change: transform, opacity;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
       }
     }
   }
@@ -207,6 +368,14 @@ const feedList = [
     button {
       width: 100%;
       height: 50px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      will-change: transform, opacity;
+
+      &:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
     }
   }
 }
