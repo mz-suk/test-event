@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useSwipeCards } from '../composables/useSwipeCards';
 
 const feedImages = [
@@ -11,12 +11,57 @@ const feedImages = [
 
 const isAllSwiped = ref(false);
 const swipedCount = ref(0);
+const feedSection = ref(null);
+
+let observer = null;
+let isScrollLocked = false;
+let wheelHandler;
+let touchMoveHandler;
+let keydownHandler;
+
+const lockScroll = () => {
+  if (isScrollLocked) return;
+  isScrollLocked = true;
+
+  wheelHandler = e => {
+    e.preventDefault();
+  };
+
+  touchMoveHandler = e => {
+    e.preventDefault();
+  };
+
+  keydownHandler = e => {
+    const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
+    if (keys.includes(e.code) || keys.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  window.addEventListener('wheel', wheelHandler, { passive: false });
+  window.addEventListener('touchmove', touchMoveHandler, { passive: false });
+  window.addEventListener('keydown', keydownHandler);
+};
+
+const unlockScroll = () => {
+  if (!isScrollLocked) return;
+  isScrollLocked = false;
+
+  window.removeEventListener('wheel', wheelHandler);
+  window.removeEventListener('touchmove', touchMoveHandler);
+  window.removeEventListener('keydown', keydownHandler);
+
+  wheelHandler = null;
+  touchMoveHandler = null;
+  keydownHandler = null;
+};
 
 // 모든 카드가 스와이프되었는지 확인
 const checkAllSwiped = () => {
   swipedCount.value += 1;
   if (swipedCount.value >= feedImages.length) {
     isAllSwiped.value = true;
+    unlockScroll();
   }
 };
 
@@ -32,10 +77,44 @@ useSwipeCards({
     checkAllSwiped();
   },
 });
+
+onMounted(() => {
+  if (!feedSection.value) return;
+
+  observer = new IntersectionObserver(
+    entries => {
+      const entry = entries[0];
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+        lockScroll();
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
+
+        if (observer && feedSection.value) {
+          observer.unobserve(feedSection.value);
+        }
+      }
+    },
+    {
+      threshold: 0.3,
+    }
+  );
+
+  observer.observe(feedSection.value);
+});
+
+onBeforeUnmount(() => {
+  if (observer && feedSection.value) {
+    observer.unobserve(feedSection.value);
+  }
+  observer = null;
+  unlockScroll();
+});
 </script>
 
 <template>
-  <section class="wrap-feed">
+  <section class="wrap-feed" ref="feedSection">
     <div class="wrap-feed__container">
       <div v-for="feed in feedImages" :key="feed.id" class="feed-card">
         <div class="feed-card__inner">
@@ -72,8 +151,6 @@ useSwipeCards({
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #000 url('/img/bg-spot.jpg') no-repeat center center;
-    background-size: cover;
     height: 100dvh;
     padding: 3rem 1.6rem 6rem;
     overflow: hidden;
