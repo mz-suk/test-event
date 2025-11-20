@@ -6,7 +6,10 @@
 
 <style scoped lang="scss">
 .wrap-feed {
+  position: relative;
+  background: #000 url('/img/bg-spot.jpg') no-repeat center center;
+  background-size: cover;
   height: 100dvh;
-  background-color: #000;
+  overflow: hidden;
 }
 </style>

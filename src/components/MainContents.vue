@@ -41,9 +41,9 @@ onMounted(async () => {
   // ============================================
   const containers = querySelectorAll('.content__container');
   gsapAnimations.reveal(containers, {
-    from: { opacity: 0, y: 80, scale: 0.95 },
+    from: { opacity: 0, y: 70, scale: 0.95 },
     to: { opacity: 1, y: 0, scale: 1 },
-    duration: 0.8,
+    duration: 0.7,
     stagger: 0.15,
     ease: 'power3.out',
     start: 'top 85%',
