@@ -19,14 +19,14 @@ const feedList = [
     icon: '/img/icon_target_board.webp',
     title: '이벤트 참여방법',
     description: '매일매일 AI 추천 피드를 확인해 주세요 \n 피드를 모두 확인하시면 피드런이 완성됩니다',
-    image: '/img/act-howto.gif',
+    image: '/img/act-howto.webp',
     buttonText: '피드를 좌우로 넘겨서 확인해주세요.',
   },
   {
     icon: '/img/icon_book_mark.webp',
     title: '이벤트 혜택안내',
     description: '피드런을 완료하신 고객님께 해외주식 \n (엔비디아, 테슬라, 애플 중)을 선물로 드려요',
-    image: '/img/act-reward.gif',
+    image: '/img/act-reward.webp',
   },
 ];
 
