@@ -3,6 +3,9 @@ import lottie from 'lottie-web';
 import { onMounted, onUnmounted, ref } from 'vue';
 import movSpot from '../assets/mov-spot.mp4';
 import titleAnimation from '../assets/title.json';
+import imgLogo from '@/assets/img/logo.webp';
+import imgLogoText from '@/assets/img/logo-text.webp';
+import imgBgSpot from '@/assets/img/bg-spot.webp';
 
 const titleContainer = ref(null);
 let animationInstance = null;
@@ -30,8 +33,8 @@ onUnmounted(() => {
 <template>
   <section class="spot">
     <header>
-      <h1><img src="/img/logo.webp" alt="logo" class="logo" /></h1>
-      <p><img src="/img/logo-text.webp" alt="logo" class="logo-text" /></p>
+      <h1><img :src="imgLogo" alt="logo" class="logo" /></h1>
+      <p><img :src="imgLogoText" alt="logo" class="logo-text" /></p>
     </header>
 
     <h2 class="title">
@@ -39,7 +42,7 @@ onUnmounted(() => {
     </h2>
 
     <div class="video-container" aria-hidden="true">
-      <video class="video-bg" :src="movSpot" autoplay muted loop playsinline preload="auto" poster="/img/bg-spot.webp"></video>
+      <video class="video-bg" :src="movSpot" autoplay muted loop playsinline preload="auto" :poster="imgBgSpot"></video>
     </div>
   </section>
 </template>

@@ -4,10 +4,10 @@ import movFeed from '../assets/mov-feed.mp4';
 import { useSwipeCards } from '../composables/useSwipeCards';
 
 const feedImages = [
-  { id: 1, src: '/img/feed1.webp', alt: '피드 1' },
-  { id: 2, src: '/img/feed2.webp', alt: '피드 2' },
-  { id: 3, src: '/img/feed3.webp', alt: '피드 3' },
-  { id: 4, src: '/img/feed4.webp', alt: '피드 4' },
+  { id: 1, src: new URL('@/assets/img/feed1.webp', import.meta.url).href, alt: '피드 1' },
+  { id: 2, src: new URL('@/assets/img/feed2.webp', import.meta.url).href, alt: '피드 2' },
+  { id: 3, src: new URL('@/assets/img/feed3.webp', import.meta.url).href, alt: '피드 3' },
+  { id: 4, src: new URL('@/assets/img/feed4.webp', import.meta.url).href, alt: '피드 4' },
 ];
 
 const isAllSwiped = ref(false);
@@ -73,8 +73,8 @@ onBeforeUnmount(() => {
 <template>
   <section class="wrap-feed" ref="feedSection">
     <div class="wrap-feed__title">
-      <h2><img src="/img/tit-feed.webp" alt="오늘의 피드" /></h2>
-      <p><img src="/img/tit-feed-desc.webp" alt="피드를 모두 확인하면, 피드런이 완성됩니다" /></p>
+      <h2><img src="@/assets/img/tit-feed.webp" alt="오늘의 피드" /></h2>
+      <p><img src="@/assets/img/tit-feed-desc.webp" alt="피드를 모두 확인하면, 피드런이 완성됩니다" /></p>
     </div>
 
     <div class="wrap-feed__container">
@@ -91,20 +91,20 @@ onBeforeUnmount(() => {
         <div class="complete-overlay"></div>
         <div class="complete-content">
           <div class="video-container" aria-hidden="true">
-            <video class="video-bg" :src="movFeed" autoplay muted loop playsinline preload="auto" poster="/img/complete.webp"></video>
+            <video class="video-bg" :src="movFeed" autoplay muted loop playsinline preload="auto" poster="@/assets/img/complete.webp"></video>
           </div>
           <p class="complete-text">오늘 피드런 완료!</p>
           <p class="complete-text-sub">테슬라 2000원을 <br />받으셨어요.</p>
-          <img src="/img/feed6.webp" alt="완료 이미지" class="complete-image-sub" />
+          <img src="@/assets/img/feed6.webp" alt="완료 이미지" class="complete-image-sub" />
         </div>
         <div class="complete-button">
-          <img src="/img/btn-feed.webp" alt="계좌 바로가기" />
+          <img src="@/assets/img/btn-feed.webp" alt="계좌 바로가기" />
         </div>
       </div>
     </transition>
 
     <div class="wrap-status">
-      <img src="/img/feed7.webp" alt="상태 이미지" class="status-image" />
+      <img src="@/assets/img/feed7.webp" alt="상태 이미지" class="status-image" />
     </div>
   </section>
 </template>

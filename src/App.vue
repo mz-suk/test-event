@@ -57,7 +57,7 @@ onUnmounted(() => {
     z-index: -1;
     width: 100%;
     height: 100%;
-    background: #000 url('/img/bg-spot.webp') 50% 50% / cover no-repeat;
+    background: #000 url('@/assets/img/bg-spot.webp') 50% 50% / cover no-repeat;
   }
 }
 </style>
