@@ -129,7 +129,21 @@ onMounted(async () => {
   });
 
   // ============================================
-  // 8. Footer 버튼 애니메이션
+  // 8. Notice 섹션 애니메이션
+  // ============================================
+  const noticeSection = querySelector('.content__notice');
+  if (noticeSection) {
+    gsapAnimations.reveal(noticeSection, {
+      from: { opacity: 0, y: 50, scale: 0.5 },
+      to: { opacity: 1, y: 0, scale: 1 },
+      duration: 0.7,
+      ease: 'power1.out',
+      start: 'top 90%',
+    });
+  }
+
+  // ============================================
+  // 9. Footer 버튼 애니메이션
   // ============================================
   const footerButton = querySelector('.content__footer button');
   if (footerButton) {
@@ -143,7 +157,7 @@ onMounted(async () => {
   }
 
   // ============================================
-  // 9. 컨테이너 패럴럭스 효과
+  // 10. 컨테이너 패럴럭스 효과
   // ============================================
   gsapAnimations.parallax(containers, {
     y: -15,
@@ -151,7 +165,7 @@ onMounted(async () => {
   });
 
   // ============================================
-  // 10. Share 섹션 패럴럭스
+  // 11. Share 섹션 패럴럭스
   // ============================================
   const shareSection = querySelector('.content__share');
   if (shareSection) {
