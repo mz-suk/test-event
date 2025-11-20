@@ -16,14 +16,14 @@ const eventInfo = [
 
 const feedList = [
   {
-    icon: '/img/icon_target_board.png',
+    icon: '/img/icon_target_board.webp',
     title: '이벤트 참여방법',
     description: '매일매일 AI 추천 피드를 확인해 주세요 \n 피드를 모두 확인하시면 피드런이 완성됩니다',
     image: '/img/act-howto.gif',
     buttonText: '피드를 좌우로 넘겨서 확인해주세요.',
   },
   {
-    icon: '/img/icon_book_mark.png',
+    icon: '/img/icon_book_mark.webp',
     title: '이벤트 혜택안내',
     description: '피드런을 완료하신 고객님께 해외주식 \n (엔비디아, 테슬라, 애플 중)을 선물로 드려요',
     image: '/img/act-reward.gif',
@@ -172,7 +172,7 @@ onUnmounted(() => {
   <section class="content">
     <div class="content__container">
       <div class="content__title">
-        <img src="/img/icon_calendar.png" alt="feed-icon" />
+        <img src="/img/icon_calendar.webp" alt="feed-icon" />
         <h2>이벤트 안내</h2>
       </div>
       <ul class="content__info-list" v-for="info in eventInfo" :key="info.title">
@@ -201,10 +201,10 @@ onUnmounted(() => {
       <h3 class="content__share-title">좋은정보는 함께 나눠요!</h3>
       <div class="content__share-button">
         <button>
-          <img src="/img/kakao.png" alt="share-icon" />
+          <img src="/img/kakao.webp" alt="share-icon" />
         </button>
         <button>
-          <img src="/img/share.png" alt="share-icon" />
+          <img src="/img/share.webp" alt="share-icon" />
         </button>
       </div>
     </div>
@@ -240,7 +240,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .content {
-  margin-top: -3rem;
+  margin-top: -4rem;
   padding-top: 60px;
   display: flex;
   flex-direction: column;

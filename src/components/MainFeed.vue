@@ -1,12 +1,13 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import movFeed from '../assets/mov-feed.mp4';
 import { useSwipeCards } from '../composables/useSwipeCards';
 
 const feedImages = [
-  { id: 1, src: '/img/feed1.png', alt: '피드 1' },
-  { id: 2, src: '/img/feed2.png', alt: '피드 2' },
-  { id: 3, src: '/img/feed3.png', alt: '피드 3' },
-  { id: 4, src: '/img/feed4.png', alt: '피드 4' },
+  { id: 1, src: '/img/feed1.webp', alt: '피드 1' },
+  { id: 2, src: '/img/feed2.webp', alt: '피드 2' },
+  { id: 3, src: '/img/feed3.webp', alt: '피드 3' },
+  { id: 4, src: '/img/feed4.webp', alt: '피드 4' },
 ];
 
 const isAllSwiped = ref(false);
@@ -14,54 +15,12 @@ const swipedCount = ref(0);
 const feedSection = ref(null);
 
 let observer = null;
-let isScrollLocked = false;
-let wheelHandler;
-let touchMoveHandler;
-let keydownHandler;
-
-const lockScroll = () => {
-  if (isScrollLocked) return;
-  isScrollLocked = true;
-
-  wheelHandler = e => {
-    e.preventDefault();
-  };
-
-  touchMoveHandler = e => {
-    e.preventDefault();
-  };
-
-  keydownHandler = e => {
-    const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
-    if (keys.includes(e.code) || keys.includes(e.key)) {
-      e.preventDefault();
-    }
-  };
-
-  window.addEventListener('wheel', wheelHandler, { passive: false });
-  window.addEventListener('touchmove', touchMoveHandler, { passive: false });
-  window.addEventListener('keydown', keydownHandler);
-};
-
-const unlockScroll = () => {
-  if (!isScrollLocked) return;
-  isScrollLocked = false;
-
-  window.removeEventListener('wheel', wheelHandler);
-  window.removeEventListener('touchmove', touchMoveHandler);
-  window.removeEventListener('keydown', keydownHandler);
-
-  wheelHandler = null;
-  touchMoveHandler = null;
-  keydownHandler = null;
-};
 
 // 모든 카드가 스와이프되었는지 확인
 const checkAllSwiped = () => {
   swipedCount.value += 1;
   if (swipedCount.value >= feedImages.length) {
     isAllSwiped.value = true;
-    unlockScroll();
   }
 };
 
@@ -84,8 +43,7 @@ onMounted(() => {
   observer = new IntersectionObserver(
     entries => {
       const entry = entries[0];
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
-        lockScroll();
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
         window.scrollTo({
           top: document.documentElement.scrollHeight,
           behavior: 'smooth',
@@ -97,7 +55,7 @@ onMounted(() => {
       }
     },
     {
-      threshold: 0.3,
+      threshold: 0.4,
     }
   );
 
@@ -109,12 +67,16 @@ onBeforeUnmount(() => {
     observer.unobserve(feedSection.value);
   }
   observer = null;
-  unlockScroll();
 });
 </script>
 
 <template>
   <section class="wrap-feed" ref="feedSection">
+    <div class="wrap-feed__title">
+      <h2><img src="/img/tit-feed.png" alt="오늘의 피드" /></h2>
+      <p><img src="/img/tit-feed-desc.png" alt="피드를 모두 확인하면, 피드런이 완성됩니다" /></p>
+    </div>
+
     <div class="wrap-feed__container">
       <div v-for="feed in feedImages" :key="feed.id" class="feed-card">
         <div class="feed-card__inner">
@@ -128,16 +90,21 @@ onBeforeUnmount(() => {
       <div v-if="isAllSwiped" class="wrap-feed__complete">
         <div class="complete-overlay"></div>
         <div class="complete-content">
-          <img src="/img/complete.png" alt="완료 이미지" class="complete-image" />
+          <div class="video-container" aria-hidden="true">
+            <video class="video-bg" :src="movFeed" autoplay muted loop playsinline preload="auto" poster="/img/complete.webp"></video>
+          </div>
           <p class="complete-text">오늘 피드런 완료!</p>
           <p class="complete-text-sub">테슬라 2000원을 <br />받으셨어요.</p>
-          <img src="/img/feed6.png" alt="완료 이미지" class="complete-image-sub" />
+          <img src="/img/feed6.webp" alt="완료 이미지" class="complete-image-sub" />
+        </div>
+        <div class="complete-button">
+          <img src="/img/btn-feed.webp" alt="계좌 바로가기" />
         </div>
       </div>
     </transition>
 
     <div class="wrap-status">
-      <img src="/img/feed7.png" alt="상태 이미지" class="status-image" />
+      <img src="/img/feed7.webp" alt="상태 이미지" class="status-image" />
     </div>
   </section>
 </template>
@@ -154,6 +121,19 @@ onBeforeUnmount(() => {
     height: 100dvh;
     padding: 3rem 1.6rem 6rem;
     overflow: hidden;
+
+    &__title {
+      margin: 2.2rem 0 5rem;
+
+      h2 img {
+        height: 2.2rem;
+        margin: 0 auto;
+      }
+      p img {
+        height: 1.6rem;
+        margin: 15px auto;
+      }
+    }
 
     // 모바일 대응
     @media (max-width: 480px) {
@@ -198,6 +178,8 @@ onBeforeUnmount(() => {
       align-items: center;
       justify-content: center;
       pointer-events: all;
+      flex-direction: column;
+      gap: 20px;
     }
   }
   &-status {
@@ -239,6 +221,26 @@ onBeforeUnmount(() => {
     justify-content: center;
     gap: 1.2rem;
     text-align: center;
+    background-color: #000;
+    width: calc(100% - 4rem);
+    height: calc(100% - 14rem);
+    border-radius: 40px;
+
+    .video-container {
+      width: 23rem;
+    }
+
+    .video-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &-button {
+    position: relative;
+    z-index: 2;
+    padding: 0 2rem;
   }
 
   &-image {

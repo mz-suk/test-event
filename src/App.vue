@@ -46,6 +46,8 @@ onUnmounted(() => {
 .event-page {
   position: relative;
   min-height: 100dvh;
+  max-width: 55rem;
+  margin: 0 auto;
 
   &::before {
     content: '';
@@ -55,7 +57,7 @@ onUnmounted(() => {
     z-index: -1;
     width: 100%;
     height: 100%;
-    background: #000 url('/img/bg-spot.jpg') 50% 50% / cover no-repeat;
+    background: #000 url('/img/bg-spot.webp') 50% 50% / cover no-repeat;
   }
 }
 </style>
