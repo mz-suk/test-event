@@ -222,7 +222,8 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 60px;
   padding-bottom: 85px;
-  border-radius: 32px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   background-color: #ffffff;
   perspective: 1000px;
   transform-style: preserve-3d;
@@ -355,6 +356,7 @@ onUnmounted(() => {
     font-weight: 800;
     height: 64px;
     border-radius: 20px;
+
     margin: 0 16px 20px;
     padding: 16px;
 
