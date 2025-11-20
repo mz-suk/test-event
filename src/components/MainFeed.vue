@@ -85,7 +85,7 @@ onMounted(() => {
   observer = new IntersectionObserver(
     entries => {
       const entry = entries[0];
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
         lockScroll();
         window.scrollTo({
           top: document.documentElement.scrollHeight,
@@ -98,7 +98,7 @@ onMounted(() => {
       }
     },
     {
-      threshold: 0.3,
+      threshold: 0.4,
     }
   );
 
