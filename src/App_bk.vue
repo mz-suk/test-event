@@ -1,11 +1,10 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, nextTick } from 'vue';
 import MainContents from './components/MainContents.vue';
+import { useGsapAnimations, useGsapHelpers } from './composables/useGsapAnimations';
 
 const isClient = typeof window !== 'undefined';
 const heroRef = ref(null);
-const scrollY = ref(0);
-const viewportHeight = ref(isClient ? window.innerHeight : 1);
 const heroProgress = ref(0);
 const activeTimelineIndex = ref(0);
 
@@ -91,107 +90,182 @@ const progressRingStyle = computed(() => {
   };
 });
 
-const heroBackgroundStyle = computed(() => ({
-  transform: `translate3d(0, ${heroProgress.value * -40}px, 0)`,
-}));
+const heroBackgroundRef = ref(null);
+const runnerRef = ref(null);
+const mascotRef = ref(null);
+const revealElements = ref([]);
 
-const runnerStyle = computed(() => ({
-  transform: `translate3d(${heroProgress.value * 60}px, ${heroProgress.value * -70}px, 0)`,
-}));
-
-const mascotStyle = computed(() => ({
-  transform: `translate3d(${heroProgress.value * -40}px, ${heroProgress.value * -40}px, 0)`,
-}));
-
-const revealObserver = ref(null);
-const revealTargets = new Set();
+// GSAP 커스텀 훅 초기화
+const gsapAnimations = useGsapAnimations();
+const { querySelectorAll, querySelector } = useGsapHelpers();
 
 const registerReveal = el => {
-  if (!el) return;
-  revealTargets.add(el);
-  if (revealObserver.value) {
-    revealObserver.value.observe(el);
-  }
+  if (!el || revealElements.value.includes(el)) return;
+  revealElements.value.push(el);
 };
 
-const updateHeroProgress = () => {
-  if (!isClient || !heroRef.value) return;
-  const rect = heroRef.value.getBoundingClientRect();
-  const ratio = 1 - Math.min(Math.max(rect.top / viewportHeight.value, 0), 1);
-  heroProgress.value = Math.max(0, Math.min(1, ratio));
-};
-
-const updateTimeline = () => {
+onMounted(async () => {
   if (!isClient) return;
-  const doc = document.documentElement;
-  const scrollMax = doc.scrollHeight - viewportHeight.value;
-  if (scrollMax <= 0) {
-    activeTimelineIndex.value = 0;
-    return;
-  }
-  const ratio = scrollY.value / scrollMax;
-  activeTimelineIndex.value = Math.min(timelineDays.length - 1, Math.floor(ratio * timelineDays.length));
-};
 
-const handleScroll = event => {
-  if (!isClient) return;
-  scrollY.value = event?.detail?.scroll ?? window.scrollY;
-  updateHeroProgress();
-  updateTimeline();
-};
+  await nextTick();
 
-const handleResize = () => {
-  if (!isClient) return;
-  viewportHeight.value = window.innerHeight;
-  updateHeroProgress();
-  updateTimeline();
-};
-
-onMounted(() => {
-  if (!isClient) return;
-  revealObserver.value = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting);
-      });
+  // ============================================
+  // 1. Hero 패럴럭스 애니메이션
+  // ============================================
+  gsapAnimations.heroParallax({
+    container: heroRef.value,
+    background: heroBackgroundRef.value,
+    runner: runnerRef.value,
+    mascot: mascotRef.value,
+    title: querySelector('.hero__title', heroRef.value),
+    subtitle: querySelector('.hero__subtitle', heroRef.value),
+    onUpdate: progress => {
+      heroProgress.value = progress;
     },
-    { threshold: 0.2 }
-  );
-  revealTargets.forEach(target => revealObserver.value?.observe(target));
-  window.addEventListener('smooth-scroll', handleScroll);
-  window.addEventListener('scroll', handleScroll);
-  window.addEventListener('resize', handleResize);
-  handleScroll();
+  });
+
+  // ============================================
+  // 2. Hero Chips 애니메이션
+  // ============================================
+  const heroChipElements = querySelectorAll('.hero__chips .chip');
+  gsapAnimations.chips(heroChipElements);
+
+  // ============================================
+  // 3. Reveal 애니메이션 (전역)
+  // ============================================
+  gsapAnimations.reveal(revealElements.value);
+
+  // ============================================
+  // 4. 타임라인 진행률 추적
+  // ============================================
+  gsapAnimations.scrollProgress(progress => {
+    activeTimelineIndex.value = Math.min(timelineDays.length - 1, Math.floor(progress * timelineDays.length));
+  });
+
+  // ============================================
+  // 5. 타임라인 Day 애니메이션
+  // ============================================
+  const timelineDayElements = querySelectorAll('.timeline__day');
+  gsapAnimations.timelineItems(timelineDayElements);
+
+  // ============================================
+  // 6. Report Cards 애니메이션
+  // ============================================
+  const reportCards = querySelectorAll('.report-card');
+  gsapAnimations.cardStagger(reportCards);
+  gsapAnimations.parallax(reportCards, { y: -15, scrub: 0.5 });
+
+  // ============================================
+  // 7. Info Cards 애니메이션
+  // ============================================
+  const infoCards = querySelectorAll('.info-card');
+  gsapAnimations.cardStagger(infoCards, {
+    from: { opacity: 0, x: -80, rotationY: -45, scale: 0.8 },
+    to: { opacity: 1, x: 0, rotationY: 0, scale: 1 },
+    duration: 0.6,
+    stagger: 0.1,
+    ease: 'power3.out',
+    trigger: querySelector('.info-grid'),
+  });
+
+  // ============================================
+  // 8. How-to Steps 애니메이션
+  // ============================================
+  const howtoSteps = querySelectorAll('.howto-step');
+  gsapAnimations.cardStagger(howtoSteps, {
+    from: { opacity: 0, x: 100, scale: 0.7, rotation: 15 },
+    to: { opacity: 1, x: 0, scale: 1, rotation: 0 },
+    duration: 0.65,
+    stagger: 0.12,
+    ease: 'back.out(2)',
+    trigger: querySelector('.howto-steps'),
+  });
+
+  // ============================================
+  // 9. Benefit Ring 애니메이션
+  // ============================================
+  const benefitRing = querySelector('.benefit__ring');
+  gsapAnimations.ring(benefitRing);
+
+  // Benefit 섹션 패럴럭스
+  const benefitSection = querySelector('.benefit');
+  gsapAnimations.parallax(benefitSection, { y: -30, scrub: 1 });
+
+  // ============================================
+  // 10. CTA 버튼 애니메이션
+  // ============================================
+  const ctaButtons = querySelectorAll('.cta');
+  gsapAnimations.buttons(ctaButtons);
+
+  // ============================================
+  // 11. Panel Headers 애니메이션
+  // ============================================
+  const panelHeaders = querySelectorAll('.panel__header');
+  panelHeaders.forEach(header => {
+    gsapAnimations.panelHeader(header);
+  });
+
+  // ============================================
+  // 12. Share Buttons 애니메이션
+  // ============================================
+  const shareButtons = querySelectorAll('.share-button');
+  gsapAnimations.buttons(shareButtons, {
+    from: { opacity: 0, scale: 0.9, y: 40 },
+    trigger: querySelector('.share-actions'),
+    start: 'top 90%',
+  });
+
+  // ============================================
+  // 13. Notice List 애니메이션
+  // ============================================
+  const noticeItems = querySelectorAll('.notice-list li');
+  gsapAnimations.listItems(noticeItems, {
+    trigger: querySelector('.notice-list'),
+  });
+
+  // ============================================
+  // 14. Benefit List 애니메이션
+  // ============================================
+  const benefitListItems = querySelectorAll('.benefit__list li');
+  gsapAnimations.listItems(benefitListItems, {
+    from: { opacity: 0, x: 40, scale: 0.9 },
+    to: { opacity: 1, x: 0, scale: 1 },
+    trigger: querySelector('.benefit__list'),
+    start: 'top 88%',
+  });
+
+  // ============================================
+  // 15. Panel 패럴럭스
+  // ============================================
+  const panels = querySelectorAll('.panel');
+  panels.forEach((panel, index) => {
+    const direction = index % 2 === 0 ? -20 : -30;
+    gsapAnimations.parallax(panel, { y: direction, scrub: 1.5 });
+  });
 });
 
+// 컴포넌트 언마운트 시 정리
 onUnmounted(() => {
   if (!isClient) return;
-  window.removeEventListener('smooth-scroll', handleScroll);
-  window.removeEventListener('scroll', handleScroll);
-  window.removeEventListener('resize', handleResize);
-  revealObserver.value?.disconnect();
-  revealTargets.clear();
+  gsapAnimations.cleanup();
+  revealElements.value = [];
 });
 </script>
 
 <template>
   <div class="event-page">
-    <section class="spot">
+    <!-- <section class="spot">
       <header>
         <h1><img src="/img/logo.png" alt="logo" class="logo" /></h1>
         <p><img src="/img/logo-text.png" alt="logo" class="logo-text" /></p>
       </header>
       <h2><img src="/img/@title.png" alt="title" class="title" /></h2>
-    </section>
-
-    <!-- <section class="content">
-      <img src="/img/@cnt.png" alt="content" class="content-img" />
     </section> -->
 
-    <MainContents />
+    <!-- <MainContents /> -->
 
-    <!-- <section ref="heroRef" class="hero">
-      <div class="hero__background" :style="heroBackgroundStyle" />
+    <section ref="heroRef" class="hero">
+      <div ref="heroBackgroundRef" class="hero__background" />
       <div class="hero__grid">
         <div>
           <p class="hero__badge">신한투자증권 · FeedRun 2025</p>
@@ -206,8 +280,8 @@ onUnmounted(() => {
           </div>
         </div>
         <div class="hero__visual">
-          <div class="runner" :style="runnerStyle"></div>
-          <div class="mascot" :style="mascotStyle"></div>
+          <div ref="runnerRef" class="runner"></div>
+          <div ref="mascotRef" class="mascot"></div>
         </div>
       </div>
     </section>
@@ -314,12 +388,41 @@ onUnmounted(() => {
       <ul class="notice-list">
         <li v-for="notice in noticeList" :key="notice">{{ notice }}</li>
       </ul>
-    </section> -->
+    </section>
   </div>
 </template>
 
 <style scoped lang="scss">
 .event-page {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero,
+.panel,
+.info-grid,
+.info-card,
+.howto-steps,
+.howto-step,
+.report-grid,
+.report-card,
+.timeline__day,
+.benefit,
+.benefit__ring {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.hero__visual {
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.runner,
+.mascot {
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .spot {
