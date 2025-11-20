@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, nextTick } from 'vue';
+import { nextTick, onMounted, onUnmounted } from 'vue';
 import { useGsapAnimations, useGsapHelpers } from '../composables/useGsapAnimations';
 
 const eventInfo = [
@@ -213,7 +213,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .content {
-  padding-top: 60px;
+  margin: -3rem 0;
   display: flex;
   flex-direction: column;
   gap: 60px;
