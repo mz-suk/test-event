@@ -433,9 +433,6 @@ onUnmounted(() => {
     margin: 0 16px 20px;
     padding: 16px;
 
-    // iOS safe area 대응
-    padding-bottom: calc(16px + env(safe-area-inset-bottom));
-
     button {
       width: 100%;
       height: 50px;
