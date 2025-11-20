@@ -216,7 +216,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .content {
-  margin-top: -3rem;
+  margin-top: -4rem;
   padding-top: 60px;
   display: flex;
   flex-direction: column;

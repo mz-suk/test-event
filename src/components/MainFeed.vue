@@ -116,6 +116,11 @@ onBeforeUnmount(() => {
 
 <template>
   <section class="wrap-feed" ref="feedSection">
+    <div class="wrap-feed__title">
+      <h2><img src="/img/tit-feed.png" alt="오늘의 피드" /></h2>
+      <p><img src="/img/tit-feed-desc.png" alt="피드를 모두 확인하면, 피드런이 완성됩니다" /></p>
+    </div>
+
     <div class="wrap-feed__container">
       <div v-for="feed in feedImages" :key="feed.id" class="feed-card">
         <div class="feed-card__inner">
@@ -160,6 +165,19 @@ onBeforeUnmount(() => {
     height: 100dvh;
     padding: 3rem 1.6rem 6rem;
     overflow: hidden;
+
+    &__title {
+      margin: 2.2rem 0 5rem;
+
+      h2 img {
+        height: 2.2rem;
+        margin: 0 auto;
+      }
+      p img {
+        height: 1.6rem;
+        margin: 15px auto;
+      }
+    }
 
     // 모바일 대응
     @media (max-width: 480px) {
