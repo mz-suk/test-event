@@ -15,54 +15,12 @@ const swipedCount = ref(0);
 const feedSection = ref(null);
 
 let observer = null;
-let isScrollLocked = false;
-let wheelHandler;
-let touchMoveHandler;
-let keydownHandler;
-
-const lockScroll = () => {
-  if (isScrollLocked) return;
-  isScrollLocked = true;
-
-  wheelHandler = e => {
-    e.preventDefault();
-  };
-
-  touchMoveHandler = e => {
-    e.preventDefault();
-  };
-
-  keydownHandler = e => {
-    const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', 'Space'];
-    if (keys.includes(e.code) || keys.includes(e.key)) {
-      e.preventDefault();
-    }
-  };
-
-  window.addEventListener('wheel', wheelHandler, { passive: false });
-  window.addEventListener('touchmove', touchMoveHandler, { passive: false });
-  window.addEventListener('keydown', keydownHandler);
-};
-
-const unlockScroll = () => {
-  if (!isScrollLocked) return;
-  isScrollLocked = false;
-
-  window.removeEventListener('wheel', wheelHandler);
-  window.removeEventListener('touchmove', touchMoveHandler);
-  window.removeEventListener('keydown', keydownHandler);
-
-  wheelHandler = null;
-  touchMoveHandler = null;
-  keydownHandler = null;
-};
 
 // 모든 카드가 스와이프되었는지 확인
 const checkAllSwiped = () => {
   swipedCount.value += 1;
   if (swipedCount.value >= feedImages.length) {
     isAllSwiped.value = true;
-    unlockScroll();
   }
 };
 
@@ -86,7 +44,6 @@ onMounted(() => {
     entries => {
       const entry = entries[0];
       if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
-        lockScroll();
         window.scrollTo({
           top: document.documentElement.scrollHeight,
           behavior: 'smooth',
@@ -110,7 +67,6 @@ onBeforeUnmount(() => {
     observer.unobserve(feedSection.value);
   }
   observer = null;
-  unlockScroll();
 });
 </script>
 
