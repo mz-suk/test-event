@@ -46,6 +46,8 @@ onUnmounted(() => {
 .event-page {
   position: relative;
   min-height: 100dvh;
+  max-width: 55rem;
+  margin: 0 auto;
 
   &::before {
     content: '';
