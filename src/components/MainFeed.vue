@@ -62,13 +62,10 @@ useSwipeCards({
 <style scoped lang="scss">
 .wrap-feed {
   position: relative;
-  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000 url('/img/bg-spot.jpg') no-repeat center center;
-  background-size: cover;
   height: 100dvh;
   padding: 3rem 1.6rem 6rem;
   overflow: hidden;

@@ -41,3 +41,21 @@ onUnmounted(() => {
     <MainFeed />
   </div>
 </template>
+
+<style scoped lang="scss">
+.event-page {
+  position: relative;
+  min-height: 100dvh;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: #000 url('/img/bg-spot.jpg') 50% 50% / cover no-repeat;
+  }
+}
+</style>

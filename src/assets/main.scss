@@ -1,36 +1,19 @@
 /* @import url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css'); */
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
-:root {
-  color-scheme: light;
-  --background: #eef3ff;
-  --background-strong: #0a1f5f;
-  --panel: #ffffff;
-  --panel-muted: #f5f7ff;
-  --text-strong: #101828;
-  --text-muted: #4a5568;
-  --accent-primary: #ff6b6b;
-  --accent-secondary: #2c8bff;
-  --accent-tertiary: #00c7be;
-  --border-soft: rgba(15, 23, 42, 0.08);
-  --shadow-soft: 0 25px 70px rgba(15, 23, 42, 0.08);
-  --radius-large: 32px;
-  --radius-medium: 18px;
-}
-
 *,
 ::before,
 ::after {
   box-sizing: border-box;
 }
 html {
-  line-height: 1.53;
+  line-height: 1.5;
   tab-size: 2;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   overflow-wrap: break-word;
   word-break: keep-all;
-  font-family: 'Pretendard Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family: 'Spoqa Han Sans Neo', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 html:focus-within {
   scroll-behavior: smooth;
@@ -267,6 +250,4 @@ body {
   color: var(--gray70);
   background-color: var(--base);
   user-select: none;
-  // background: #000 url('/img/bg-spot.jpg') no-repeat center center;
-  // background-size: cover;
 }
