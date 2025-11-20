@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
+    "export": "vite build --base ./",
     "preview": "vite preview",
     "gf": "git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d",
     "gfl": "git branch | grep -v '^*' | xargs git branch -D"

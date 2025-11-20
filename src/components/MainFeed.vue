@@ -73,8 +73,8 @@ onBeforeUnmount(() => {
 <template>
   <section class="wrap-feed" ref="feedSection">
     <div class="wrap-feed__title">
-      <h2><img src="/img/tit-feed.png" alt="오늘의 피드" /></h2>
-      <p><img src="/img/tit-feed-desc.png" alt="피드를 모두 확인하면, 피드런이 완성됩니다" /></p>
+      <h2><img src="/img/tit-feed.webp" alt="오늘의 피드" /></h2>
+      <p><img src="/img/tit-feed-desc.webp" alt="피드를 모두 확인하면, 피드런이 완성됩니다" /></p>
     </div>
 
     <div class="wrap-feed__container">
