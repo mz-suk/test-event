@@ -56,66 +56,91 @@ useSwipeCards({
         </div>
       </div>
     </transition>
+
+    <div class="wrap-status">
+      <img src="/img/feed7.png" alt="상태 이미지" class="status-image" />
+    </div>
   </section>
 </template>
 
 <style scoped lang="scss">
-.wrap-feed {
-  position: relative;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #000 url('/img/bg-spot.jpg') no-repeat center center;
-  background-size: cover;
-  height: 100dvh;
-  padding: 3rem 1.6rem 6rem;
-  overflow: hidden;
-
-  // 모바일 대응
-  @media (max-width: 480px) {
-    padding: 2rem 1rem 5rem;
-  }
-
-  &__container {
+.wrap {
+  &-feed {
     position: relative;
-    width: 100%;
-    max-width: 380px;
-    height: 620px; // 높이 증가하여 뒤 카드 공간 확보
-    perspective: 1500px;
-    transform-style: preserve-3d;
-    padding-bottom: 40px; // 하단 여백으로 뒤 카드가 보이는 공간 확보
-
-    // 모바일 최적화
-    @media (max-width: 480px) {
-      max-width: 340px;
-      height: 560px;
-      padding-bottom: 30px;
-    }
-
-    @media (max-width: 360px) {
-      max-width: 300px;
-      height: 500px;
-      padding-bottom: 25px;
-    }
-  }
-
-  &__actions {
+    min-height: 100dvh;
     display: flex;
-    gap: 3rem;
-    margin-top: 2rem;
-    z-index: 10;
-  }
-
-  &__complete {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    pointer-events: all;
+    background: #000 url('/img/bg-spot.jpg') no-repeat center center;
+    background-size: cover;
+    height: 100dvh;
+    padding: 3rem 1.6rem 6rem;
+    overflow: hidden;
+
+    // 모바일 대응
+    @media (max-width: 480px) {
+      padding: 2rem 1rem 5rem;
+    }
+
+    &__container {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      height: 620px; // 높이 증가하여 뒤 카드 공간 확보
+      perspective: 1500px;
+      transform-style: preserve-3d;
+      padding-bottom: 40px; // 하단 여백으로 뒤 카드가 보이는 공간 확보
+
+      // 모바일 최적화
+      @media (max-width: 480px) {
+        max-width: 340px;
+        height: 560px;
+        padding-bottom: 30px;
+      }
+
+      @media (max-width: 360px) {
+        max-width: 300px;
+        height: 500px;
+        padding-bottom: 25px;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2rem;
+      z-index: 10;
+    }
+
+    &__complete {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: all;
+    }
+  }
+  &-status {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 18px;
+    width: 100%;
+    height: 156px;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      user-select: none;
+      pointer-events: none;
+      display: block;
+    }
   }
 }
 
