@@ -426,7 +426,7 @@ onUnmounted(() => {
 }
 
 .spot {
-  background: #000 url('/img/bg-spot.png') no-repeat center center;
+  background: #000 url('/img/bg-spot.webp') no-repeat center center;
   background-size: cover;
   height: 100dvh;
 

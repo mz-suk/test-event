@@ -30,8 +30,8 @@ onUnmounted(() => {
 <template>
   <section class="spot">
     <header>
-      <h1><img src="/img/logo.png" alt="logo" class="logo" /></h1>
-      <p><img src="/img/logo-text.png" alt="logo" class="logo-text" /></p>
+      <h1><img src="/img/logo.webp" alt="logo" class="logo" /></h1>
+      <p><img src="/img/logo-text.webp" alt="logo" class="logo-text" /></p>
     </header>
 
     <h2 class="title">
@@ -39,7 +39,7 @@ onUnmounted(() => {
     </h2>
 
     <div class="video-container" aria-hidden="true">
-      <video class="video-bg" :src="movSpot" autoplay muted loop playsinline preload="auto" poster="/img/bg-spot.jpg"></video>
+      <video class="video-bg" :src="movSpot" autoplay muted loop playsinline preload="auto" poster="/img/bg-spot.webp"></video>
     </div>
   </section>
 </template>
