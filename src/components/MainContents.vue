@@ -18,14 +18,14 @@ const feedList = [
     icon: '/img/icon_target_board.png',
     title: '이벤트 참여방법',
     description: '매일매일 AI 추천 피드를 확인해 주세요 \n 피드를 모두 확인하시면 피드런이 완성됩니다',
-    image: '/img/feed-1.png',
+    image: '/img/act-howto.gif',
     buttonText: '피드를 좌우로 넘겨서 확인해주세요.',
   },
   {
     icon: '/img/icon_book_mark.png',
     title: '이벤트 혜택안내',
     description: '피드런을 완료하신 고객님께 해외주식 \n (엔비디아, 테슬라, 애플 중)을 선물로 드려요',
-    image: '/img/feed-1.png',
+    image: '/img/act-reward.gif',
   },
 ];
 
@@ -188,8 +188,8 @@ onUnmounted(() => {
         <p>{{ feed.description }}</p>
       </div>
       <div class="content__feed">
-        <img :src="feed.icon" alt="feed-image" />
-        <p v-if="feed.buttonText">{{ feed.buttonText }}</p>
+        <img :src="feed.image" alt="feed-image" />
+        <!-- <p v-if="feed.buttonText">{{ feed.buttonText }}</p> -->
       </div>
     </div>
 
@@ -213,7 +213,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .content {
-  margin: -3rem 0;
+  margin-top: -3rem;
   display: flex;
   flex-direction: column;
   gap: 60px;
@@ -287,21 +287,13 @@ onUnmounted(() => {
     will-change: transform, opacity;
   }
   &__feed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    background-color: #e6f3ff;
-    height: 200px;
+    overflow: hidden;
     border-radius: 16px;
-    font-size: 1.4rem;
-    line-height: 1.3;
-    letter-spacing: -1px;
-    font-weight: 500;
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   &__share {
     display: flex;
