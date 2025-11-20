@@ -1,5 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import movFeed from '../assets/mov-feed.mp4';
 import { useSwipeCards } from '../composables/useSwipeCards';
 
 const feedImages = [
@@ -128,10 +129,15 @@ onBeforeUnmount(() => {
       <div v-if="isAllSwiped" class="wrap-feed__complete">
         <div class="complete-overlay"></div>
         <div class="complete-content">
-          <img src="/img/complete.png" alt="완료 이미지" class="complete-image" />
+          <div class="video-container" aria-hidden="true">
+            <video class="video-bg" :src="movFeed" autoplay muted loop playsinline preload="auto" poster="/img/bg-spot.jpg"></video>
+          </div>
           <p class="complete-text">오늘 피드런 완료!</p>
           <p class="complete-text-sub">테슬라 2000원을 <br />받으셨어요.</p>
           <img src="/img/feed6.png" alt="완료 이미지" class="complete-image-sub" />
+        </div>
+        <div class="complete-button">
+          <img src="/img/btn-feed.png" alt="계좌 바로가기" />
         </div>
       </div>
     </transition>
@@ -198,6 +204,8 @@ onBeforeUnmount(() => {
       align-items: center;
       justify-content: center;
       pointer-events: all;
+      flex-direction: column;
+      gap: 20px;
     }
   }
   &-status {
@@ -239,6 +247,26 @@ onBeforeUnmount(() => {
     justify-content: center;
     gap: 1.2rem;
     text-align: center;
+    background-color: #000;
+    width: calc(100% - 4rem);
+    height: calc(100% - 14rem);
+    border-radius: 40px;
+
+    .video-container {
+      width: 23rem;
+    }
+
+    .video-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &-button {
+    position: relative;
+    z-index: 2;
+    padding: 0 2rem;
   }
 
   &-image {
