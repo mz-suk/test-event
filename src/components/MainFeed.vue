@@ -25,10 +25,10 @@ useSwipeCards({
   containerSelector: '.wrap-feed__container',
   cardSelector: '.feed-card',
   threshold: 100,
-  onSwipeLeft: card => {
+  onSwipeLeft: () => {
     checkAllSwiped();
   },
-  onSwipeRight: card => {
+  onSwipeRight: () => {
     checkAllSwiped();
   },
 });

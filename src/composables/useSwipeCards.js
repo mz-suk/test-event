@@ -58,6 +58,15 @@ export function useSwipeCards(options = {}) {
   const handleDragStart = (event, card) => {
     if (isDragging.value) return;
 
+    // 방어 코드: 최상위 카드가 아닌 경우 이벤트 무시
+    const visibleCards = container?.querySelectorAll(`${cardSelector}:not(.removed)`);
+    const topCard = visibleCards?.[0];
+
+    if (!topCard || card !== topCard) {
+      console.log('최상위 카드가 아니므로 드래그를 무시합니다.');
+      return;
+    }
+
     isDragging.value = true;
     currentCard.value = card;
 
