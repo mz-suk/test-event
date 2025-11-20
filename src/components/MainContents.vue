@@ -1,6 +1,7 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted } from 'vue';
 import { useGsapAnimations, useGsapHelpers } from '../composables/useGsapAnimations';
+import Arrow from './Arrow.vue';
 
 const eventInfo = [
   {
@@ -208,6 +209,29 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <div class="content__notice">
+      <div class="content__notice-top">
+        <div>
+          <span>마케팅 수신 동의</span>
+          <Arrow />
+        </div>
+        <div>
+          <span>내 정보 확인하기</span>
+          <Arrow />
+        </div>
+      </div>
+      <div class="content__notice-bottom">
+        <ul>
+          <li>
+            이벤트 혜택을 받기 위해서는 마케팅 이용 <br />
+            (수집 ∙ 이용 ∙ 제공 ∙ 수신) 동의는 필수이며, <br />
+            경품지급 시점까지 동의사항을 유지해주셔야 해요.<br />
+            (SMS, PUSH 주간 수신 동의)
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div class="content__footer">
       <button class="content__footer-button">이벤트 참여하기</button>
     </div>
@@ -222,8 +246,7 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 60px;
   padding-bottom: 85px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 20px;
   background-color: #ffffff;
   perspective: 1000px;
   transform-style: preserve-3d;
@@ -306,7 +329,6 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     gap: 20px;
-    margin-bottom: 85px; // footer와의 간격
     transform-style: preserve-3d;
     will-change: transform, opacity;
     &-title {
@@ -338,6 +360,57 @@ onUnmounted(() => {
       }
     }
   }
+
+  &__notice {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 20px 55px;
+
+    &-top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      div {
+        padding: 16px;
+        width: 100%;
+        height: 46px;
+        background-color: #f4f6f9;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #333950;
+        span {
+          font-family: 'Spoqa Han Sans Neo', sans-serif;
+          font-size: 1.4rem;
+          line-height: 1;
+          letter-spacing: 0.5px;
+          font-weight: 700;
+        }
+      }
+    }
+    &-bottom {
+      ul {
+        padding-left: 20px;
+        li {
+          font-family: 'Spoqa Han Sans Neo', sans-serif;
+          font-weight: 700;
+          font-size: 1.4rem;
+          line-height: 24px;
+          letter-spacing: -1px;
+          color: #999ea4;
+          list-style-type: disc;
+          list-style-position: outside;
+
+          &::marker {
+            color: #999ea4;
+          }
+        }
+      }
+    }
+  }
+
   &__footer {
     position: fixed;
     bottom: 0;
